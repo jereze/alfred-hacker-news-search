@@ -88,7 +88,7 @@ if ! command -v jq &amp;&gt; /dev/null; then
 fi
 
 
-QUERY=$1
+QUERY="$(echo "$1" | sed 's/"/\\"/g' | sed 's/ /%20/g')"
 
 curl -s "https://hn.algolia.com/api/v1/search?query=${QUERY}" | jq \
 '{ "items": [.hits[] | { 
