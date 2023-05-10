@@ -81,19 +81,17 @@
 				<key>runningsubtext</key>
 				<string></string>
 				<key>script</key>
-				<string>#!/bin/bash
-
-if ! command -v jq &amp;&gt; /dev/null; then
-    osascript -e 'display notification "jq is not installed" with title "Error"'
+				<string>if ! command -v jq &amp;&gt; /dev/null; then
+  echo '{ "items": [{ "title": "jq is not installed", "subtitle": "Use Alfred’s Dependency Manager to install it", "valid": false }] }'
+  exit 1
 fi
 
-
-QUERY="$(echo "$1" | sed 's/"/\\"/g' | sed 's/ /%20/g')"
+QUERY="$(/usr/bin/osascript -l JavaScript -e 'function run(argv) { return encodeURIComponent(argv[0]) }' "${1}")"
 
 curl -s "https://hn.algolia.com/api/v1/search?query=${QUERY}" | jq \
 '{ "items": [.hits[] | { 
 	uid: .objectID,
-	title: (.title // .comment_text),
+	title: (if .title == null or .title == "" then .comment_text else .title end),
 	subtitle: "\(._tags[0]) | \(.created_at[0:10]) | \(.points // 0) pt",
 	arg: "https://news.ycombinator.com/item?id=\(.objectID)" }
 ] }'</string>
