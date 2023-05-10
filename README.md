@@ -1,4 +1,4 @@
-Hacker News Search (Alfrew Workflow)
+Hacker News Search (Alfred Workflow)
 ---
 
 ![Screenshot of the workflow](screenshot.png)
