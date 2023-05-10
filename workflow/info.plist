@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>jereze.hackernewssearch</string>
+	<key>category</key>
+	<string>Internet</string>
+	<key>connections</key>
+	<dict>
+		<key>41833698-1C16-43E4-B153-C9F6512242E2</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>DCFDB566-199D-4E30-9E6D-B2D3144C408F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>jereze</string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Hacker News Search</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>DCFDB566-199D-4E30-9E6D-B2D3144C408F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>hns</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>#!/bin/bash
+
+if ! command -v jq &amp;&gt; /dev/null; then
+    osascript -e 'display notification "jq is not installed" with title "Error"'
+fi
+
+
+QUERY=$1
+
+curl -s "https://hn.algolia.com/api/v1/search?query=${QUERY}" | jq \
+'{ "items": [.hits[] | { 
+	uid: .objectID,
+	title: (.title // .comment_text),
+	subtitle: "\(._tags[0]) | \(.created_at[0:10]) | \(.points // 0) pt",
+	arg: "https://news.ycombinator.com/item?id=\(.objectID)" }
+] }'</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Hacker News search</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>41833698-1C16-43E4-B153-C9F6512242E2</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>The Hacker News Search Alfred workflow let you quickly search for specific keywords or topics and find relevant articles, posts, and comments on the popular tech community site Hacker News. 
+
+To use the workflow, you simply need to activate Alfred and type in the keyword "hns" followed by the search query you want to perform. For example, if you wanted to search for articles related to artificial intelligence, you would type "hns ai" into Alfred's search bar. The workflow will then query the Algolia search API (https://hn.algolia.com/) to find relevant articles, posts, and comments on Hacker News, and display the results directly in Alfred's search bar.
+
+The workflow requires "jq" to be installed on the system. "jq" is a lightweight and flexible command-line JSON processor that is used by the workflow to parse and manipulate the response from the search API.
+
+To install "jq," the easiest way would probably be using homebrew: `brew install jq`.</string>
+	<key>uidata</key>
+	<dict>
+		<key>41833698-1C16-43E4-B153-C9F6512242E2</key>
+		<dict>
+			<key>xpos</key>
+			<real>110</real>
+			<key>ypos</key>
+			<real>310</real>
+		</dict>
+		<key>DCFDB566-199D-4E30-9E6D-B2D3144C408F</key>
+		<dict>
+			<key>xpos</key>
+			<real>330</real>
+			<key>ypos</key>
+			<real>310</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
