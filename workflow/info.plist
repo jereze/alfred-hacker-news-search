@@ -150,6 +150,6 @@ To install "jq," the easiest way would probably be using homebrew: `brew install
 	<key>version</key>
 	<string>1.0.0</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>https://github.com/jereze/alfred-hacker-news-search</string>
 </dict>
 </plist>
